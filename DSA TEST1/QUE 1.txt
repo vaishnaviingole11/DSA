@@ -1,0 +1,154 @@
+package p1;
+
+import java.util.Scanner;
+
+class Node {
+    int data;     
+    Node next;     
+
+    Node(int data) {
+        this.data = data;
+        this.next = null;
+    }
+
+	public int getData() {
+		return data;
+	}
+
+	public void setData(int data) {
+		this.data = data;
+	}
+
+	public Node getNext() {
+		return next;
+	}
+
+	public void setNext(Node next) {
+		this.next = next;
+	}
+    
+}
+class SortedLinkedList {
+    Node head; 
+    public void insertSorted(int data) {
+
+        Node newNode = new Node(data);
+        // List empty asel kiwa new value head peksha lahan asel teva 
+        if (head == null || data < head.data) {
+            newNode.next = head;
+            head = newNode;
+            return;
+        }
+
+        Node temp = head;
+
+        while (temp.next != null && temp.next.data < data) {
+            temp = temp.next;
+        }
+
+        // Insert
+        newNode.next = temp.next;
+        temp.next = newNode;
+    }
+
+    public void display() {
+
+        if (head == null) {
+            System.out.println("List is Empty");
+            return;
+        }
+
+        Node temp = head;
+
+        while (temp != null) {
+            System.out.print(temp.data + " -> ");
+            temp = temp.next;
+        }
+
+        System.out.println("null");
+    }
+
+    public void deleteElement(int key) {
+        if (head == null) {
+            System.out.println("List is Empty");
+            return;
+        }
+
+        if (head.data == key) {
+            head = head.next;
+            System.out.println(key + " Deleted Successfully");
+            return;
+        }
+
+        Node temp = head;
+        Node prev = null;
+        while (temp != null && temp.data != key) {
+            prev = temp;
+            temp = temp.next;
+        }
+        if (temp == null) {
+            System.out.println("Element Not Found");
+            return;
+        }
+        prev.next = temp.next;
+        
+        System.out.println(key + " Deleted Successfully");
+    }
+}
+
+public class Test {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        SortedLinkedList list = new SortedLinkedList();
+
+        int choice;
+
+        do {
+            System.out.println("\n-------- SORTED LINKED LIST---------");
+            System.out.println("1. Insert");
+            System.out.println("2. Display");
+            System.out.println("3. Delete");
+            System.out.println("4. Exit");
+            System.out.print("Enter Choice : ");
+
+            choice = sc.nextInt();
+
+            switch (choice) {
+
+            case 1:
+                System.out.print("Enter Value : ");
+                int value = sc.nextInt();
+
+                list.insertSorted(value);
+
+                System.out.println("Element Inserted");
+                break;
+
+            case 2:
+                System.out.println("Linked List : ");
+                list.display();
+                break;
+
+            case 3:
+                System.out.print("Enter Element To Delete : ");
+                int key = sc.nextInt();
+
+                list.deleteElement(key);
+                break;
+
+            case 4:
+                System.out.println("Program Ended");
+                break;
+
+            default:
+                System.out.println("Invalid Choice");
+            }
+
+        } while (choice != 4);
+
+        sc.close();
+    }
+}
